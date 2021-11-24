@@ -85,6 +85,8 @@ func SetTerrain(newElevation, newFeature):
 	#some features will lock it, they cannot be changed once assigned like water
 	if locked:
 		pass
+	elif newFeature == "":
+		elevation = newElevation
 	else:
 		texture = load(tileImageDictionary[newFeature])	#this is temporary
 		elevation = newElevation

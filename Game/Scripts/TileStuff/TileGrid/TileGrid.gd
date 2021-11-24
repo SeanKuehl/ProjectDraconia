@@ -38,8 +38,9 @@ func Init(mapSize):
 		tileGrid.append(tempRow)
 		tempRow = []
 
-	ForrestPlacement()
+	#ForrestPlacement()
 	#WaterPlacement()
+	ElevationPlacement()
 
 
 func _process(_delta):
@@ -103,6 +104,46 @@ func WaterPlacement():
 
 		numberOfTunnels -= 1
 
+func ElevationPlacement():
+	var minElevation = 1	#water has lower elevation, but it's a special case
+	var maxElevation = 5
+
+	var elevationGrid = []
+
+
+	var gridSize = len(tileGrid)
+
+	for i in gridSize+1:
+
+
+		var line = []
+
+		for x in gridSize+1:
+			line.append(rng.randi_range(minElevation, maxElevation))
+
+
+
+		line = AdjacentMin(line)
+
+		elevationGrid.append(line)
+
+	#now assign the elevation to the actual tiles
+	#print(tileGrid[0][0].SetTerrain(1, "land"))
+	#there are +1's elsewhere but here because elevationGrid was always one size too small
+	#but now that it's made right it's the right size
+	for y in gridSize:
+		for x in gridSize:
+			tileGrid[y][x].SetTerrain(elevationGrid[y][x], "")
+
+func AdjacentMin(noise):
+	var output = []
+	for i in range(len(noise) - 1):
+	  #for more valleys than hills,  use min.
+	  #more hills use max
+	  #for a mix of both use average
+		output.append(min(noise[i], noise[i+1]))
+
+	return output
 
 func ForrestPlacement():
 
