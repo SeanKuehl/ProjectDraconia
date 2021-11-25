@@ -40,7 +40,8 @@ func Init(mapSize):
 
 	#ForrestPlacement()
 	#WaterPlacement()
-	ElevationPlacement()
+	#ElevationPlacement()
+	MountainPlacement()
 
 
 func _process(_delta):
@@ -144,6 +145,66 @@ func AdjacentMin(noise):
 		output.append(min(noise[i], noise[i+1]))
 
 	return output
+
+func MountainPlacement():
+	#pick a random position
+	var gridSize = len(tileGrid)-1	#-1 because range is inclusive, gridSize because grid is of uniform size
+	var directions = [[0,1], [1,0], [0,-1], [-1,0]]
+
+	var terrainFeature = "land"
+
+	var randomXPosition = rng.randi_range(0, gridSize)	#this range is inclusive
+	var randomYPosition = rng.randi_range(0, gridSize)
+	#var randomXPosition = 4
+	#var randomYPosition = 4
+
+	var originalX = randomXPosition
+	var originalY = randomYPosition
+
+	var randomPlacementDirection = directions[rng.randi_range(0,3)]
+	var randomDispersalDirection = [randomPlacementDirection[1], randomPlacementDirection[0]]	#the placement direction but flipped
+
+	var randomPlacementLength = rng.randi_range(2,5)
+	#var randomPlacementLength = 4
+	var randomDispersalLength = rng.randi_range(2, 10)
+
+
+	var tempDLength = randomDispersalLength
+	var tempPLength = randomPlacementLength
+
+
+
+	while tempPLength > 0:
+
+		originalX = randomXPosition
+		originalY = randomYPosition
+
+		#place the first point
+		if CoordinateWithinGridBounds(Vector2(randomXPosition, randomYPosition)):
+			tileGrid[randomYPosition][randomXPosition].SetTerrain(0, terrainFeature)
+
+		while (tempDLength-1) > 0:
+
+
+			randomXPosition += randomDispersalDirection[0]
+			randomYPosition += randomDispersalDirection[1]
+
+
+			if CoordinateWithinGridBounds(Vector2(randomXPosition, randomYPosition)):
+				tileGrid[randomYPosition][randomXPosition].SetTerrain(0, terrainFeature)
+
+			tempDLength -= 1
+
+		randomXPosition = originalX
+		randomYPosition = originalY
+
+		randomXPosition += randomPlacementDirection[0]
+		randomYPosition += randomPlacementDirection[1]
+
+		tempPLength -= 1
+		tempDLength = rng.randi_range(2, 10)
+
+
 
 func ForrestPlacement():
 
