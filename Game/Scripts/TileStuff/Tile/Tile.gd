@@ -58,6 +58,10 @@ func GetSightRangeBoost():
 func SetSightRangeBoost(newVal):
 	sightRangeBoost = newVal
 
+
+#func GetCenter():
+#	return global_position
+
 func CheckIfCoordinatesWithinBounds(coordinates):
 	#tiles are uniform size
 	var topLeft = global_position
@@ -72,6 +76,9 @@ func CheckIfCoordinatesWithinBounds(coordinates):
 
 	if coordinates.x > left and coordinates.x < right:
 		if coordinates.y < bottom and coordinates.y > top:
+
+
+
 			return true
 
 	return false
@@ -94,3 +101,29 @@ func SetTerrain(newElevation, newFeature):
 
 		if terrainFeature == "water":
 			locked = true
+
+#typeof(playerOneMonster) == TYPE_OBJECT
+func AddUnitToTile(unit):
+	unit.global_position = global_position	#set it to the centre of the current tile
+	storedUnit = unit	#sore a reference to the unit
+
+
+func CheckIfCoordinatesWithinUnitBounds(coordinates):
+	#tiles are uniform size
+
+	if typeof(storedUnit) == TYPE_OBJECT:
+
+		return storedUnit.CheckIfCoordinatesWithinBounds(coordinates)
+
+	else:
+		return false
+
+
+func MoveUnitToPos(firstPosition, secondPosition, tileSize, spaceBetweenTiles):
+	if typeof(storedUnit) == TYPE_OBJECT:
+		#get the difference between the positions, how the unit will have to move
+		#tile by tile to reach the other position
+		var xDiff = secondPosition.x - 	firstPosition.x
+		var yDiff = secondPosition.y - firstPosition.y
+
+		storedUnit.Move(xDiff, yDiff, tileSize, spaceBetweenTiles)

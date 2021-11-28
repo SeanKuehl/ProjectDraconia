@@ -41,7 +41,7 @@ func Init(mapSize):
 	#ForrestPlacement()
 	#WaterPlacement()
 	#ElevationPlacement()
-	MountainPlacement()
+	#MountainPlacement()
 
 
 func _process(_delta):
@@ -57,8 +57,11 @@ func _process(_delta):
 		var yTiles = stepify((mouseY / (tileSize + spaceBetweenTiles)), 1)
 
 		if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos):
+			print(tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinUnitBounds(mousePos))
+			#the above works! Could be expanded to buildings as well by the same idea
+			#next step: when unit clicked on, show where it can move based on movement range, maybe tileGrid does this and not unit
 			#display pop up of tile
-			pass
+
 
 		#print(xTiles)
 		#print(yTiles)
@@ -328,4 +331,19 @@ func CoordinateWithinGridBounds(coordinate):
 		if coordinate.y >= 0 and coordinate.y <= (len(tileGrid)-1):
 			return true
 	return false
+
+
+
+#unit should be a unit class or a derivative
+#unitPosition should be a vector2
+func AddUnitToGrid(unit, unitPosition):
+	if CoordinateWithinGridBounds(unitPosition):
+		tileGrid[unitPosition.y][unitPosition.x].AddUnitToTile(unit)
+
+#attempt to move a unit at one position to another
+#unitPosition should be a vector2
+func MoveUnitToPos(firstPosition, secondPosition):
+	if CoordinateWithinGridBounds(firstPosition) and CoordinateWithinGridBounds(secondPosition):
+
+		tileGrid[firstPosition.y][firstPosition.x].MoveUnitToPos(firstPosition, secondPosition, tileSize, spaceBetweenTiles)
 
