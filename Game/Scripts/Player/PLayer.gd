@@ -4,6 +4,8 @@ var cameraMoveAmount = 25
 
 
 
+var allegiance = ""	#will be used to check what units they are allowed to select
+
 
 
 

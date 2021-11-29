@@ -20,7 +20,7 @@ var tileImageDirectory = "res://Game/Assets/Images/TIleImages/"
 var tileImageDictionary = {"water": tileImageDirectory+"icon.png", "land": tileImageDirectory+"land.png", "trees": tileImageDirectory+"trees.png"}	#will have images for "water", "grass" etc.
 
 func _ready():
-	texture = load(tileImageDictionary["water"])
+	$Tile.texture = load(tileImageDictionary["water"])
 
 func GetConcealmentBoost():
 	return concealmentBoost
@@ -86,7 +86,7 @@ func CheckIfCoordinatesWithinBounds(coordinates):
 
 
 func SetImage(image):
-	texture = load(tileImageDictionary[image])
+	$Tile.texture = load(tileImageDictionary[image])
 
 func SetTerrain(newElevation, newFeature):
 	#some features will lock it, they cannot be changed once assigned like water

@@ -10,8 +10,8 @@ func _ready():
 
 	var newUnit = unitClass.instance()
 	add_child(newUnit)
-	var positionOfUnit = Vector2(0,0)
+	var positionOfUnit = Vector2(1,1)
 	$TileGrid.AddUnitToGrid(newUnit, positionOfUnit)
-	#$TileGrid.MoveUnitToPos(positionOfUnit, Vector2(5,0))
+	$TileGrid.MoveUnitToPos(positionOfUnit, Vector2(8,6))
 
 

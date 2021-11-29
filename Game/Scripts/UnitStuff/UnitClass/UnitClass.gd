@@ -137,12 +137,12 @@ func Move(xDiff, yDiff, tileSize, spaceBetweenTiles):
 		else:
 			if yDiff > 0:
 				#move a tile up
-				movementSteps.append(Vector2(currentPosition.x-tileSize-spaceBetweenTiles, currentPosition.y))
+				movementSteps.append(Vector2(currentPosition.x, currentPosition.y+tileSize+spaceBetweenTiles))
 				currentPosition = movementSteps[-1]
 				yDiff -= 1
 			elif yDiff < 0:
 				#move a tile down
-				movementSteps.append(Vector2(currentPosition.x+tileSize+spaceBetweenTiles, currentPosition.y))
+				movementSteps.append(Vector2(currentPosition.x, currentPosition.y-tileSize-spaceBetweenTiles))
 				currentPosition = movementSteps[-1]
 				yDiff += 1
 
