@@ -4,7 +4,8 @@ onready var unitClass = load("res://Game/Scenes/UnitStuff/UnitClass/UnitClass.ts
 
 func _ready():
 
-
+	#Server.Init()
+	#Client.Init()
 
 	$TileGrid.Init(10)
 
@@ -12,6 +13,12 @@ func _ready():
 	add_child(newUnit)
 	var positionOfUnit = Vector2(1,1)
 	$TileGrid.AddUnitToGrid(newUnit, positionOfUnit)
-	$TileGrid.MoveUnitToPos(positionOfUnit, Vector2(8,6))
+	#$TileGrid.MoveUnitToPos(positionOfUnit, Vector2(8,6))
+
+func TestFunction():
+	print("this worked, just so you know")
+
+remote func Fake():
+	get_tree().get_root().get_node("World").TestFunction()
 
 

@@ -22,6 +22,8 @@ config/icon="res://Game/Assets/Images/TIleImages/icon.png"
 [autoload]
 
 PlayerGlobals="*res://Game/Scripts/Globals/PlayerGlobals.gd"
+Client="*res://Game/Scripts/MultiplayerTesting/Client.gd"
+Server="*res://Game/Scripts/MultiplayerTesting/Server.gd"
 
 [input]
 

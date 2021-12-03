@@ -14,6 +14,8 @@ var tileSize = 200
 
 var tileGrid = []
 
+var currentSelectedTilePosition = []
+
 
 var rng = RandomNumberGenerator.new()
 
@@ -56,8 +58,17 @@ func _process(_delta):
 		var xTiles = stepify((mouseX / (tileSize + spaceBetweenTiles)), 1)	#stepify I believe rounds to the nearest 1
 		var yTiles = stepify((mouseY / (tileSize + spaceBetweenTiles)), 1)
 
-		if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos):
-			print(tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinUnitBounds(mousePos))
+		if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == false:
+			if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinUnitBounds(mousePos):
+				PlayerGlobals.SetSelectingUnit(true)
+				currentSelectedTilePosition = [int(yTiles), int(xTiles)]
+				tileGrid[yTiles][xTiles].DisplayUnitInformation()
+				#tell the tile to let the unit do it's selected stuff
+				#like show it's movement on surrounding tiles and display it's info
+
+		elif tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == true:
+			MoveUnitToPos(Vector2(currentSelectedTilePosition[0],currentSelectedTilePosition[1]), Vector2(xTiles, yTiles))
+
 			#the above works! Could be expanded to buildings as well by the same idea
 			#next step: when unit clicked on, show where it can move based on movement range, maybe tileGrid does this and not unit
 			#display pop up of tile
@@ -337,6 +348,10 @@ func CoordinateWithinGridBounds(coordinate):
 #unit should be a unit class or a derivative
 #unitPosition should be a vector2
 func AddUnitToGrid(unit, unitPosition):
+
+	unit.connect("DisplayUnitStuff", self, "DisplayUnitInformationOnTileGrid")
+	unit.connect("ReachedDestination", self, "RemoveUnitInformationFromTileGrid")
+
 	if CoordinateWithinGridBounds(unitPosition):
 		tileGrid[unitPosition.y][unitPosition.x].AddUnitToTile(unit)
 
@@ -346,4 +361,18 @@ func MoveUnitToPos(firstPosition, secondPosition):
 	if CoordinateWithinGridBounds(firstPosition) and CoordinateWithinGridBounds(secondPosition):
 
 		tileGrid[firstPosition.y][firstPosition.x].MoveUnitToPos(firstPosition, secondPosition, tileSize, spaceBetweenTiles)
+
+func DisplayUnitInformationOnTileGrid(movePos):
+
+	for coordinate in movePos:
+		tileGrid[currentSelectedTilePosition[0]+coordinate[1]][currentSelectedTilePosition[1]+coordinate[0]].SetBorderImage("Yellow")
+
+	#var placeYouCanMove = Vector2(int(currentSelectedTilePosition[0])+movePos[0], int(currentSelectedTilePosition[1])+movePos[1])
+	#tileGrid[placeYouCanMove.y][placeYouCanMove.x].SetBorderImage("Yellow")
+	#print(message)
+
+func RemoveUnitInformationFromTileGrid(movePos):
+
+	for coordinate in movePos:
+		tileGrid[currentSelectedTilePosition[0]+coordinate[1]][currentSelectedTilePosition[1]+coordinate[0]].RestoreLastBorderImage()
 

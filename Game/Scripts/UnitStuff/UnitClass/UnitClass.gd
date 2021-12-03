@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 onready var unitImagesDirectory = "res://Game/Assets/Images/UnitImages/"
-onready var image = $Sprite
+
 
 var unitPhysicalSize = 40 #this would have to change if unit size ever changed
 
@@ -19,10 +19,11 @@ var moving = false
 var movementDiff = []
 var movementSteps = []
 var movementStepIndex = 0
+var movementGrid = []
 
 
-
-
+signal DisplayUnitStuff(message)
+signal ReachedDestination(message)
 
 func CheckIfCoordinatesWithinBounds(coordinates):
 	#tiles are uniform size
@@ -50,6 +51,12 @@ func SetImage(image):
 
 
 
+func ShowMyStuff():
+	#make list of positions you can move to, from the perspective of
+	#this unit's current position
+	#ex. [1,1] is the current pos +1x and +1y
+	movementGrid = [[-1,-1], [-1,0], [-1,1], [-1,0], [1,-1], [1,0], [1,1], [0,1], [0,-1]]
+	emit_signal("DisplayUnitStuff", movementGrid)
 #export (int) var speed = 1200
 #export (int) var jump_speed = -1800
 #export (int) var gravity = 4000
@@ -115,6 +122,7 @@ func Move(xDiff, yDiff, tileSize, spaceBetweenTiles):
 
 	var currentPosition = global_position
 
+	print(xDiff, yDiff)
 
 	while abs(xDiff) > 0 or abs(yDiff) > 0:
 		if abs(xDiff) > abs(yDiff):
@@ -148,6 +156,8 @@ func Move(xDiff, yDiff, tileSize, spaceBetweenTiles):
 
 
 	moving = true
+	#it's started moving, remove visual movement grid
+	emit_signal("ReachedDestination", movementGrid)
 
 
 

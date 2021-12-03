@@ -17,7 +17,10 @@ var terrainFeature = ""
 var locked = false	#if it's water for instance, don't overwrite it
 
 var tileImageDirectory = "res://Game/Assets/Images/TIleImages/"
+var tileBorderImageDirectory = "res://Game/Assets/Images/TileBorderColors/"
 var tileImageDictionary = {"water": tileImageDirectory+"icon.png", "land": tileImageDirectory+"land.png", "trees": tileImageDirectory+"trees.png"}	#will have images for "water", "grass" etc.
+
+var defaultBorderColor = tileBorderImageDirectory+"Red"+".png"
 
 func _ready():
 	$Tile.texture = load(tileImageDictionary["water"])
@@ -88,6 +91,14 @@ func CheckIfCoordinatesWithinBounds(coordinates):
 func SetImage(image):
 	$Tile.texture = load(tileImageDictionary[image])
 
+func SetBorderImage(image):
+	texture = load(tileBorderImageDirectory+image+".png")
+
+
+
+func RestoreLastBorderImage():
+	texture = load(defaultBorderColor)
+
 func SetTerrain(newElevation, newFeature):
 	#some features will lock it, they cannot be changed once assigned like water
 	if locked:
@@ -125,5 +136,11 @@ func MoveUnitToPos(firstPosition, secondPosition, tileSize, spaceBetweenTiles):
 		#tile by tile to reach the other position
 		var xDiff = secondPosition.x - 	firstPosition.x
 		var yDiff = secondPosition.y - firstPosition.y
+		print(xDiff, yDiff)
 
 		storedUnit.Move(xDiff, yDiff, tileSize, spaceBetweenTiles)
+
+
+func DisplayUnitInformation():
+	if typeof(storedUnit) == TYPE_OBJECT:
+		storedUnit.ShowMyStuff()
