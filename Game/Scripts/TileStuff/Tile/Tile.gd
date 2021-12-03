@@ -136,9 +136,22 @@ func MoveUnitToPos(firstPosition, secondPosition, tileSize, spaceBetweenTiles):
 		#tile by tile to reach the other position
 		var xDiff = secondPosition.x - 	firstPosition.x
 		var yDiff = secondPosition.y - firstPosition.y
-		print(xDiff, yDiff)
+
 
 		storedUnit.Move(xDiff, yDiff, tileSize, spaceBetweenTiles)
+
+
+func GetAndRemoveUnitReference():
+	var toReturn = storedUnit
+	storedUnit = 0
+	return toReturn
+
+func SetUnitReference(unit):
+	#unit.global_position = global_position
+	storedUnit = unit
+
+
+
 
 
 func DisplayUnitInformation():

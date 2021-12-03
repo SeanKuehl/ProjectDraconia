@@ -23,7 +23,7 @@ var movementGrid = []
 
 
 signal DisplayUnitStuff(message)
-signal ReachedDestination(message)
+signal StartedMoving(message)
 
 func CheckIfCoordinatesWithinBounds(coordinates):
 	#tiles are uniform size
@@ -93,6 +93,7 @@ func _physics_process(delta):
 		#print(movementSteps[0])
 
 		velocity = position.direction_to(movementSteps[movementStepIndex]) * speed
+
 		#print(movementSteps[0], position)
 		#movementStepIndex
 		velocity = move_and_slide(velocity)
@@ -118,11 +119,13 @@ func _physics_process(delta):
 
 func Move(xDiff, yDiff, tileSize, spaceBetweenTiles):
 
+	movementSteps = []	#clear the steps for this upcoming iteration
+
 	#the unit will move there in steps, each step is a tile in a direction
 
 	var currentPosition = global_position
 
-	print(xDiff, yDiff)
+
 
 	while abs(xDiff) > 0 or abs(yDiff) > 0:
 		if abs(xDiff) > abs(yDiff):
@@ -156,8 +159,9 @@ func Move(xDiff, yDiff, tileSize, spaceBetweenTiles):
 
 
 	moving = true
+
 	#it's started moving, remove visual movement grid
-	emit_signal("ReachedDestination", movementGrid)
+	emit_signal("StartedMoving", movementGrid)
 
 
 
