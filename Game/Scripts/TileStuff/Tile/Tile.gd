@@ -118,6 +118,19 @@ func AddUnitToTile(unit):
 	unit.global_position = global_position	#set it to the centre of the current tile
 	storedUnit = unit	#sore a reference to the unit
 
+func AddBuildingToTile(building):
+	#not too sure about the positioning code
+	var halfBuildingSize = building.GetBuildingSize()
+	var shiftAmount = 60	#experimentally determined, not based on algorithm, could break upon changes
+	var centerOfTile = global_position
+	var rectSize = get_rect().size	#this is a vector 2
+	var rightOfTile = centerOfTile.x + rectSize[0]
+	var topOfTile = centerOfTile.y - rectSize[1]
+	var buildingPosition = Vector2(rightOfTile-shiftAmount, topOfTile+shiftAmount)
+	building.global_position = buildingPosition
+	#building.global_position = global_position
+	storedBuilding = building
+
 
 func CheckIfCoordinatesWithinUnitBounds(coordinates):
 	#tiles are uniform size
@@ -125,6 +138,17 @@ func CheckIfCoordinatesWithinUnitBounds(coordinates):
 	if typeof(storedUnit) == TYPE_OBJECT:
 
 		return storedUnit.CheckIfCoordinatesWithinBounds(coordinates)
+
+	else:
+		return false
+
+
+func CheckIfCoordinatesWithinBuildingBounds(coordinates):
+	#tiles are uniform size
+
+	if typeof(storedBuilding) == TYPE_OBJECT:
+
+		return storedBuilding.CheckIfCoordinatesWithinBounds(coordinates)
 
 	else:
 		return false

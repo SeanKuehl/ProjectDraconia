@@ -39,6 +39,7 @@ func CheckIfCoordinatesWithinBounds(coordinates):
 
 	if coordinates.x > left and coordinates.x < right:
 		if coordinates.y < bottom and coordinates.y > top:
+
 			return true
 
 	return false

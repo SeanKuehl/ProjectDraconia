@@ -54,6 +54,7 @@ func _process(_delta):
 
 		var mouseX = mousePos[0] - startingX	#this makes it so this equation works regardless of where the grid starts
 		var mouseY = mousePos[1] - startingY
+		print(str(mouseX)+", "+str(mouseY))
 		#floor(), round down, ciel() round up
 		#this assumes pos is within grid but doesn't check
 		var xTiles = stepify((mouseX / (tileSize + spaceBetweenTiles)), 1)	#stepify I believe rounds to the nearest 1
@@ -68,6 +69,9 @@ func _process(_delta):
 				tileGrid[yTiles][xTiles].DisplayUnitInformation()
 				#tell the tile to let the unit do it's selected stuff
 				#like show it's movement on surrounding tiles and display it's info
+
+			if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBuildingBounds(mousePos):
+				print("yes")
 
 		elif tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == true:
 
@@ -365,6 +369,12 @@ func AddUnitToGrid(unit, unitPosition):
 
 	if CoordinateWithinGridBounds(unitPosition):
 		tileGrid[unitPosition.y][unitPosition.x].AddUnitToTile(unit)
+
+
+func AddBuildingToGrid(building, buildingPosition):
+
+	if CoordinateWithinGridBounds(buildingPosition):
+		tileGrid[buildingPosition.y][buildingPosition.x].AddBuildingToTile(building)
 
 #attempt to move a unit at one position to another
 #unitPosition should be a vector2
