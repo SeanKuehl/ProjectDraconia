@@ -16,35 +16,43 @@ var sightRangeBoost = 0
 
 var buildingImagesDirectory = "res://Game/Assets/Images/BuildingImages/"
 var buildingPhysicalSize = 85
-
+var buildingPosition = 0
 
 
 func CheckIfCoordinatesWithinBounds(coordinates):
-	#something is really wrong with these coordinates
-	#tiles are uniform size
-	var rectangle = $Sprite.texture.get_rect()
-	print(rectangle)
-#	var right = topLeft.x + (buildingPhysicalSize/2)
-#	var left = topLeft.x  - (buildingPhysicalSize/2)
-#	var top = topLeft.y - (buildingPhysicalSize/2)
-#	var bottom = topLeft.y + (buildingPhysicalSize/2)
-#
-	var left = 0
-	var right = 0
-
-#	print(right)
-#	print(left)
-	#print(top)
-	#print(bottom)
 
 
 
-	if coordinates.x > left and coordinates.x < right:
-#		if coordinates.y < bottom and coordinates.y > top:
 
-		return true
+	#it is consistently the bottom left of the tile to the right,
+	#to correct it x-100, y+100 and it should be about the center of the building
+	#also the coordinates seem to have had 100 added to atleast the x when passed to this func
+	#don't know why
+
+
+	var realXCoord = coordinates.x - 100
+	var realYCoord = coordinates.y + 100
+
+	var left = buildingPosition.x - 100	- (buildingPhysicalSize/2)
+	var right = buildingPosition.x - 100 + (buildingPhysicalSize/2)
+
+	var top = buildingPosition.y + 100 + (buildingPhysicalSize/2)
+	var bottom = buildingPosition.y + 100 - (buildingPhysicalSize/2)
+
+
+
+
+
+	if realXCoord > left and realXCoord < right:
+		if realYCoord > bottom and realYCoord < top:
+
+			return true
 
 	return false
+
+func SetBuildingPosition(newPos):
+	buildingPosition = newPos
+
 
 func GetBuildingSize():
 	return buildingPhysicalSize

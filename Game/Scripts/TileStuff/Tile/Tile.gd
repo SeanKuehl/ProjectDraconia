@@ -68,10 +68,11 @@ func SetSightRangeBoost(newVal):
 func CheckIfCoordinatesWithinBounds(coordinates):
 	#tiles are uniform size
 	var topLeft = global_position
-	var right = topLeft.x + (texture.get_width()/2)
-	var left = topLeft.x  - (texture.get_width()/2)
-	var top = topLeft.y - (texture.get_width()/2)
-	var bottom = topLeft.y + (texture.get_width()/2)
+
+	var right = topLeft.x + (texture.get_width())
+	var left = topLeft.x  - (texture.get_width())
+	var top = topLeft.y - (texture.get_width())
+	var bottom = topLeft.y + (texture.get_width())
 
 
 
@@ -128,6 +129,7 @@ func AddBuildingToTile(building):
 	var topOfTile = centerOfTile.y - rectSize[1]
 	var buildingPosition = Vector2(rightOfTile-shiftAmount, topOfTile+shiftAmount)
 	building.global_position = buildingPosition
+	building.SetBuildingPosition(buildingPosition)
 	#building.global_position = global_position
 	storedBuilding = building
 
@@ -151,6 +153,7 @@ func CheckIfCoordinatesWithinBuildingBounds(coordinates):
 		return storedBuilding.CheckIfCoordinatesWithinBounds(coordinates)
 
 	else:
+
 		return false
 
 

@@ -54,11 +54,13 @@ func _process(_delta):
 
 		var mouseX = mousePos[0] - startingX	#this makes it so this equation works regardless of where the grid starts
 		var mouseY = mousePos[1] - startingY
-		print(str(mouseX)+", "+str(mouseY))
+
 		#floor(), round down, ciel() round up
 		#this assumes pos is within grid but doesn't check
 		var xTiles = stepify((mouseX / (tileSize + spaceBetweenTiles)), 1)	#stepify I believe rounds to the nearest 1
 		var yTiles = stepify((mouseY / (tileSize + spaceBetweenTiles)), 1)
+
+
 
 		if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == false:
 
@@ -71,6 +73,8 @@ func _process(_delta):
 				#like show it's movement on surrounding tiles and display it's info
 
 			if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBuildingBounds(mousePos):
+				#now that this works, make a menu pop up where you can buy a unit of your type
+				#may have to disable the tile grid checking for clicks within it while there is a menu up
 				print("yes")
 
 		elif tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == true:
@@ -87,6 +91,7 @@ func _process(_delta):
 			#the above works! Could be expanded to buildings as well by the same idea
 			#next step: when unit clicked on, show where it can move based on movement range, maybe tileGrid does this and not unit
 			#display pop up of tile
+
 
 
 		#print(xTiles)
