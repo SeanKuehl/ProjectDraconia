@@ -20,6 +20,8 @@ var lastUnitMoveList = []
 
 var rng = RandomNumberGenerator.new()
 
+signal PlayerWantsToPurchaseSomething()
+
 func _ready():
 	rng.randomize()
 
@@ -75,7 +77,7 @@ func _process(_delta):
 			if tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBuildingBounds(mousePos):
 				#now that this works, make a menu pop up where you can buy a unit of your type
 				#may have to disable the tile grid checking for clicks within it while there is a menu up
-				print("yes")
+				emit_signal("PlayerWantsToPurchaseSomething")
 
 		elif tileGrid[yTiles][xTiles].CheckIfCoordinatesWithinBounds(mousePos) and PlayerGlobals.GetSelectingUnit() == true:
 

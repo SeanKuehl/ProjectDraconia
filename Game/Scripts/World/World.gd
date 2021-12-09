@@ -3,11 +3,15 @@ extends Node2D
 onready var unitClass = load("res://Game/Scenes/UnitStuff/UnitClass/UnitClass.tscn")
 onready var buildingClass = load("res://Game/Scenes/BuildingStuff/BuildingClass/BuildingClass.tscn")
 
+onready var purchaseTroopMenu = load("res://Game/Scenes/BuildingStuff/BuildingMenus/BuyTroopsMenu.tscn")
+
+var currentTroopPurchaseMenu = 0
 
 func _ready():
 
 	#Server.Init()
 	#Client.Init()
+	$TileGrid.connect("PlayerWantsToPurchaseSomething", self, "DisplayTroopPurchaseMenu")
 
 	$TileGrid.Init(10)
 
@@ -26,5 +30,16 @@ func TestFunction():
 
 remote func Fake():
 	get_tree().get_root().get_node("World").TestFunction()
+
+func DisplayTroopPurchaseMenu():
+	currentTroopPurchaseMenu = purchaseTroopMenu.instance()
+	#"TroopPurchased"
+	currentTroopPurchaseMenu.connect("TroopPurchased", self, "CloseTroopPurchaseMenu")
+
+	add_child(currentTroopPurchaseMenu)
+
+func CloseTroopPurchaseMenu():
+	currentTroopPurchaseMenu.queue_free()
+
 
 
