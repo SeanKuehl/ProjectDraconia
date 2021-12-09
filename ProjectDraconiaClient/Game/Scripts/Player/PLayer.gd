@@ -5,9 +5,12 @@ var cameraMoveAmount = 25
 
 
 var allegiance = ""	#will be used to check what units they are allowed to select
+var color = ""
 
-
-
+#color is an actual Color() built-in type while allegiance is just a string
+func SetColorAndAllegiance(passedColor, passedAllegiance):
+	color = passedColor
+	allegiance = passedAllegiance
 
 func get_input():
 

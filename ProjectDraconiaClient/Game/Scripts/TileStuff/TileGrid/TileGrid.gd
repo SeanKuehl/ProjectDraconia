@@ -18,7 +18,7 @@ var currentSelectedTilePosition = []
 var lastUnitMoveList = []
 
 
-var rng = RandomNumberGenerator.new()
+onready var rng = RandomNumberGenerator.new()
 
 signal PlayerWantsToPurchaseSomething()
 
@@ -26,7 +26,8 @@ func _ready():
 	rng.randomize()
 
 
-func Init(mapSize):
+func Init(mapSize, randomSeed):
+	rng.seed = randomSeed
 	var tempRow = []
 	#if mapSize is 10, then grid will be 10*10
 	for y in mapSize:
